@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
+  <title>Coin Flip DApp</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    body {
+      width: 100%;
+      height: 100vh;
+      color: cornsilk;
+      font-family: 'Exo', sans-serif;
+    }
+
+    .area {
+      background: #4e54c8;
+      background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
+      width: 100%;
+      height: 100vh;
+      position: relative;
+    }
+
+    .circles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .circles li {
+      position: absolute;
+      display: block;
+      list-style: none;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      animation: animate 25s linear infinite;
+      bottom: -150px;
+
+    }
+
+    .circles li:nth-child(1) {
+      left: 25%;
+      width: 80px;
+      height: 80px;
+      animation-delay: 0s;
+    }
+
+
+    .circles li:nth-child(2) {
+      left: 10%;
+      width: 20px;
+      height: 20px;
+      animation-delay: 2s;
+      animation-duration: 12s;
+    }
+
+    .circles li:nth-child(3) {
+      left: 70%;
+      width: 20px;
+      height: 20px;
+      animation-delay: 4s;
+    }
+
+    .circles li:nth-child(4) {
+      left: 40%;
+      width: 60px;
+      height: 60px;
+      animation-delay: 0s;
+      animation-duration: 18s;
+    }
+
+    .circles li:nth-child(5) {
+      left: 65%;
+      width: 20px;
+      height: 20px;
+      animation-delay: 0s;
+    }
+
+    .circles li:nth-child(6) {
+      left: 75%;
+      width: 110px;
+      height: 110px;
+      animation-delay: 3s;
+    }
+
+    .circles li:nth-child(7) {
+      left: 35%;
+      width: 150px;
+      height: 150px;
+      animation-delay: 7s;
+    }
+
+    .circles li:nth-child(8) {
+      left: 50%;
+      width: 25px;
+      height: 25px;
+      animation-delay: 15s;
+      animation-duration: 45s;
+    }
+
+    .circles li:nth-child(9) {
+      left: 20%;
+      width: 15px;
+      height: 15px;
+      animation-delay: 2s;
+      animation-duration: 35s;
+    }
+
+    .circles li:nth-child(10) {
+      left: 85%;
+      width: 150px;
+      height: 150px;
+      animation-delay: 0s;
+      animation-duration: 11s;
+    }
+
+
+
+    @keyframes animate {
+
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+        border-radius: 0;
+      }
+
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+        border-radius: 50%;
+      }
+
+    }
+
+    .logo-img {
+      cursor: pointer;
+      width: 136px;
+      height: 40px;
+    }
+
+    .navbar {
+      background-color: #424661;
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 100;
+    }
+
+    .navbar-toggler {
+      border: none;
+      outline: none;
+    }
+
+    .navbar-nav {
+      align-items: center;
+    }
+
+    .nav-item {
+      margin-right: 15px;
+    }
+
+    .nav-link {
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: grey;
+      border-radius: 4px;
+    }
+
+    .nav-item.active .nav-link {
+      color: #007bff !important;
+    }
+
+    .navbar-toggler:focus {
+      outline: none;
+    }
+
+    .navbar-toggler {
+      border: 3px solid white;
+    }
+
+    .cont-opacity {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .cont {
+      position: relative;
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: 8px;
+      width: 100%;
+      height: 500px;
+      background-color: #00000090;
+    }
+
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: white;
+      font-weight: bold;
+    }
+
+    .eth {
+      color: #0099ff;
+      padding-left: 4px;
+    }
+
+    p i {
+      color: #0099ff;
+      padding-left: 4px;
+    }
+
+    #balance {
+      color: #0099ff;
+      padding-left: 4px;
+    }
+
+    .bet-amount {
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .bet-amount h1 {
+      color: white;
+      font-size: 28px;
+    }
+
+    .amount {
+      color: #0099ff;
+      font-weight: bold;
+    }
+
+    .bet-btn {
+      width: 100%;
+      background-color: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .bet-btn .betting {
+      cursor: pointer;
+      outline: none;
+      width: 76px;
+      height: 46px;
+      font-size: 24px;
+      font-weight: bold;
+      border: none;
+      margin: 10px 6px;
+      border-radius: 4px;
+      background-color: #0099ff;
+      color: #fff;
+      transition: background-color 0.3s ease;
+    }
+
+    .bet-btn .betting:hover {
+      border: solid 2px #e3e3e3;
+    }
+
+    .start-bet {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .start-bet .start {
+      cursor: pointer;
+      outline: none;
+      margin-top: 10px;
+      width: 160px;
+      height: 46px;
+      font-size: 24px;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      background-color: #0099ff;
+      color: #fff;
+      transition: background-color 0.3s ease;
+    }
+
+    .start-bet .start:hover {
+      border: solid 2px #e3e3e3;
+    }
+
+    #coin {
+      width: 50px;
+      height: 50px;
+      animation: spin 0.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotateX(0deg);
+      }
+
+      100% {
+        transform: rotateX(360deg);
+      }
+    }
+
+    #flip {
+      width: 200px;
+      height: 200px;
+    }
+
+    #result {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 200px;
+      margin: 20px 0;
+      background-color: transparent;
+    }
+
+    #result img {
+      width: 200px;
+      height: 200px;
+    }
+
+    @media screen and (min-width: 1024px) {
+      .cont {
+        width: 500px;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="area">
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <img src="nav-logo.png" class="logo-img" alt="Logo">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="index.html">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link text-white" href="#">Playgame</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#">Swap</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="https://bridge.base.org/">Bridge</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="cont-opacity">
+      <div class="cont">
+        <p>
+          Balance :<i class="fa-solid fa-coins"></i><span id="balance"></span><span class="eth">ETH</span>
+        </p>
+      </p>
+      <p id="result">
+        <img src="flip.png" alt="">
+      </p>
+      <div class="bet-amount">
+        <h1>
+          Bet Amount : <span class="amount"><span id="betAmount">0.01</span>ETH</span>
+        </h1>
+      </div>
+      <div class="bet-btn">
+        <button class="betting" onclick="divideBetByTwo()">/ <i class="fa-solid fa-2"></i></button>
+        <button class="betting" onclick="decreaseBet()"><i class="fa-solid fa-minus"></i></button>
+        <button class="betting" onclick="increaseBet()"><i class="fa-solid fa-plus"></i></button>
+        <button class="betting" onclick="multiplyBetByTwo()">X <i class="fa-solid fa-2"></i></button>
+        <button class="betting" onclick="maxBet()">Max</button>
+      </div>
+      <div class="start-bet">
+        <button class="start" onclick="flipCoin()">Flip Coin<i
+          class="fa-sharp fa-solid fa-coin-front"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Update contract address and ABI
+    const contractAddress = '0xab055f91dbbad7fbea016db9dc8a5950509f7561';
+    const contractABI = [{
+      "inputs": [],
+      "name": "flip",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+      {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [{
+          "indexed": false,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+          {
+            "indexed": false,
+            "internalType": "bool",
+            "name": "result",
+            "type": "bool"
+          }],
+        "name": "GameResult",
+        "type": "event"
+      },
+      {
+        "inputs": [],
+        "name": "withdraw",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [{
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }],
+        "stateMutability": "view",
+        "type": "function"
+      }];
+
+    let web3;
+    let contract;
+    let betAmount = 0.01; // Default bet amount
+    const minBetAmount = 0.01; // Minimum bet amount
+    const maxBetAmount = 100; // Maximum bet amount
+
+    async function init() {
+      // Modern dapp browsers
+      if (window.ethereum) {
+        web3 = new Web3(window.ethereum);
+        try {
+          // Request account access if needed
+          await window.ethereum.enable();
+        } catch (error) {
+          // User denied account access
+          console.error("User denied account access");
+        }
+      }
+      // Legacy dapp browsers
+      else if (window.web3) {
+        web3 = new Web3(web3.currentProvider);
+      }
+      // Non-dapp browsers
+      else {
+        console.log("Non-Ethereum browser detected. You should consider trying MetaMask!");
+        return;
+      }
+      contract = new web3.eth.Contract(contractABI, contractAddress);
+      updateBalance();
+    }
+
+    async function updateBalance() {
+      const accounts = await web3.eth.getAccounts();
+      const balance = await web3.eth.getBalance(accounts[0]);
+      const balanceInEther = web3.utils.fromWei(balance, 'ether');
+      const formattedBalance = parseFloat(balanceInEther).toFixed(3);
+      document.getElementById('balance').textContent = formattedBalance;
+    }
+
+
+
+    function multiplyBetByTwo() {
+      const multipliedBet = betAmount * 2;
+      if (multipliedBet <= maxBetAmount) {
+        betAmount = multipliedBet;
+        document.getElementById('betAmount').textContent = betAmount.toFixed(2);
+      }
+    }
+
+    function divideBetByTwo() {
+      const dividedBet = betAmount / 2;
+      if (dividedBet >= minBetAmount) {
+        betAmount = dividedBet;
+        document.getElementById('betAmount').textContent = betAmount.toFixed(2);
+      }
+    }
+
+    function increaseBet() {
+      const increasedBet = betAmount + 0.01;
+      if (increasedBet <= maxBetAmount) {
+        betAmount = increasedBet;
+        document.getElementById('betAmount').textContent = betAmount.toFixed(2);
+      }
+    }
+
+    function decreaseBet() {
+      const decreasedBet = betAmount - 0.01;
+      if (decreasedBet >= minBetAmount) {
+        betAmount = decreasedBet;
+        document.getElementById('betAmount').textContent = betAmount.toFixed(2);
+      }
+    }
+
+    function minBet() {
+      betAmount = minBetAmount;
+      document.getElementById('betAmount').textContent = betAmount.toFixed(2);
+    }
+
+    function maxBet() {
+      betAmount = maxBetAmount;
+      document.getElementById('betAmount').textContent = betAmount.toFixed(2);
+    }
+
+    async function flipCoin() {
+      const accounts = await web3.eth.getAccounts();
+      const value = web3.utils.toWei(betAmount.toString(), 'ether');
+
+      contract.methods.flip().send({
+        from: accounts[0], value: value
+      })
+      .on('transactionHash', function (hash) {
+        // Transaction in progress
+        document.getElementById('result').innerHTML = `<img id="coin" src="flip.png" alt="Coin" class="spinning">`;
+      })
+      .on('receipt', function (receipt) {
+        // Transaction successful
+        const result = receipt.events.GameResult.returnValues.result;
+        if (result) {
+          document.getElementById('result').innerHTML = `<img id="flip" src="youwin.png" alt="Coin" class="spinning">`;
+        } else {
+          document.getElementById('result').innerHTML = `<img id="flip" src="youlost.png" alt="Coin" class="spinning">`;
+        }
+        updateBalance();
+      })
+      .on('error',
+        function (error) {
+          // Transaction failed
+          document.getElementById('result').textContent = 'Error: ' + error.message;
+        });
+    }
+
+    // Initialize the DApp
+    init();
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
